@@ -32,6 +32,12 @@ print('Installing firmware.')
 input('Please be sure the upload button is pressed and hit a key to continue.')
 os.system(f'esptool.py --chip esp32 --port {ports[port_num]} write_flash -z 0x1000 firmware.bin')
 
+print('Creating WiFi credentials file.')
+ssid = input('WiFi SSID name? ')
+pswd = input('WiFi password? ')
+with open('wifi_creds.txt', 'w') as f:
+    f.write(f'ssid={ssid}\n')
+    f.write(f'password={pswd}')
 
-
-
+print('Installing credentials to the ESP32 at /wifi_creds.txt')
+os.system(f'ampy -d 1 -p {ports[port_num]} put wifi_creds.txt')
