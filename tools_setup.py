@@ -11,9 +11,9 @@ def get_ports():
         connected.append(element.device)
     return connected
 
-print(get_ports())
-print('Installing ESP firmware tools...')
+print('Installing tools...')
 os.system('pip install esptool')
+os.system('pip install adafruit-ampy')
 print('')
 print('Getting ESP32 microPython firmware...')
 print('Note, this is the Bluetooth not LAN version.')
