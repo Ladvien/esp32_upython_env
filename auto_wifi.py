@@ -38,11 +38,13 @@ def auto_wifi():
     else:
         print('No WiFi credentials were found.  Please run "tools_setup.py".')
         quit()
-
+    time.sleep(4)
     # Attempt to connect
     sta_if.connect(ssid, pswd)
 
     # Check IPs
     time.sleep(4)
-    print(sta_if.isconnected())
-
+    print('WiFi connected: {0}'.format(sta_if.isconnected()))
+    print('IPs founds:')
+    print(sta_if.ifconfig())
+    return sta_if
