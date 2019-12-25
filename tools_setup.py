@@ -17,7 +17,7 @@ os.system('pip install adafruit-ampy')
 print('')
 print('Getting ESP32 microPython firmware...')
 print('Note, this is the Bluetooth not LAN version.')
-urllib.request.urlretrieve('https://micropython.org/resources/firmware/esp32spiram-idf4-20191224-v1.12-5-g42e45bd69.bin', os.getcwd() + '/firmware.bin')
+urllib.request.urlretrieve('https://micropython.org/resources/firmware/esp32spiram-idf4-20191220-v1.12.bin', os.getcwd() + '/firmware.bin')
 
 ports = get_ports()
 
@@ -27,17 +27,18 @@ for port in ports:
     print(f'    {port_index}: {port}')
     port_index += 1
 port_num = int(input())
+ssid = input('WiFi SSID name? ')
+pswd = input('WiFi password? ')
 
 print('Installing firmware.')
 input('Please be sure the upload button is pressed and hit a key to continue.')
 os.system(f'esptool.py --chip esp32 --port {ports[port_num]} write_flash -z 0x1000 firmware.bin')
 
 print('Creating WiFi credentials file.')
-ssid = input('WiFi SSID name? ')
-pswd = input('WiFi password? ')
 with open('wifi_creds.txt', 'w') as f:
     f.write(f'ssid={ssid}\n')
     f.write(f'password={pswd}')
 
 print('Installing credentials to the ESP32 at /wifi_creds.txt')
 os.system(f'ampy -d 1 -p {ports[port_num]} put wifi_creds.txt')
+os.system(f'ampy -d 1 -p {ports[port_num]} put boot.py')
